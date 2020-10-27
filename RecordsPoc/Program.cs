@@ -1,28 +1,20 @@
 ﻿using Raven.Client.Documents;
 
-namespace RecordsPoc
+var store = new DocumentStore
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var store = new DocumentStore
-            {                
-                Urls = new[] { "http://localhost:8080" },
-                Database = "test-records",
-            };
+    Urls = new[] { "http://localhost:8080" },
+    Database = "test-records",
+};
 
-            store.Initialize();
+store.Initialize();
 
-            using (var session = store.OpenSession())
-            {
-                var person = new Person("John", "Doe");
+using (var session = store.OpenSession())
+{
+    var person = new Person("John", "Doe");
 
-                session.Store(person);
-                session.SaveChanges();
-            }
-        }        
-    }
-
-    public record Person(string FirstName, string LastName);
+    session.Store(person);
+    session.SaveChanges();
 }
+
+
+public record Person(string FirstName, string LastName);
